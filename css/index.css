@@ -5,3 +5,7 @@
 .meaning:not(last-child) .btn:before {
     content: '-';
 }
+
+.meaning:nth-child(5) .btn {
+    display: none;
+}
