@@ -1,0 +1,7 @@
+.meaning:last-child .btn:before {
+    content: '+';
+}
+
+.meaning:not(last-child) .btn:before {
+    content: '-';
+}
