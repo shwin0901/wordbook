@@ -2,8 +2,6 @@ let saveButton = document.getElementById('save');
 
 saveButton.addEventListener('click', function(event) {
     event.preventDefault();
-
-
 });
 
 const meaningDiv = `
@@ -32,20 +30,26 @@ function onMeaningButtonClick(event) {
     }
 }
 
+let wordBook = JSON.parse(localStorage.getItem('wordBook')) || [];
+
 let save = document.getElementById('save');
 save.onclick = function(event) {
     event.preventDefault();
-   if( !inspectInput()) return;
+   if( inspectInput()) return;
+    let word = getWord(document);
+    wordBook.push(word);
+    localStorage.setItem('wordBook',JSON.stringify(wordBook));
+
 };
 
 function inspectInput() {
     for (let input of document.querySelectorAll('input')) {
         if (input.value === '') {
             input.style.borderColor = 'red';
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 function onInputCharge(event) {
@@ -54,3 +58,17 @@ function onInputCharge(event) {
     }
 }
 
+function getWord(element) {
+    let meaning = element.querySelectorAll('.meaning');
+    let word = {
+        name : element.getElementsByTagName('input')[0].value,
+        chinese : []
+    };
+    for (let item of meaning){
+        word.chinese.push({
+            type: item.children[0].value,
+            text: item.children[1].value,
+        })
+    }
+    return word;
+}
