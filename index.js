@@ -36,6 +36,7 @@ let save = document.getElementById('save');
 save.onclick = function(event) {
     event.preventDefault();
     if (inspectInput()) return;
+    if (detectionCard()) return;
     let word = getWord(document);
     wordBook.push(word);
     localStorage.setItem('wordBook', JSON.stringify(wordBook));
@@ -81,8 +82,8 @@ function createWordLi(word) {
     li.insertAdjacentHTML('beforeend', `<div>
             <div>${word.name}</div>
             <div>
-                <button>编辑</button>
-                <button>删除</button>
+                <button onclick="">编辑</button>
+                <button onclick="removeCard(event)">删除</button>
             </div>
             <div class="word-Li"></div>
             </div>`);
@@ -107,12 +108,24 @@ function refreshWordLi() {
 refreshWordLi();
 
 function clearInputMessage() {
-    for(let div of document.querySelectorAll('.meaning:not(:first-child)')){
+    for (let div of document.querySelectorAll('.meaning:not(:first-child)')) {
         div.remove();
     }
-    for(let input of document.querySelectorAll('input')){
+    for (let input of document.querySelectorAll('input')) {
         input.value = ''
     }
     document.querySelector('.meaning>select').value = 'v.';
 
+}
+
+//检查输入时的单词是否在localStorage中存在
+function detectionCard() {
+    let card = document.getElementsByTagName('input')[0];
+    for (let wordcard of wordBook) {
+        if (card.value === wordcard.name) {
+            alert('该单词已存在');
+            return true;
+        }
+    }
+    return false;
 }
