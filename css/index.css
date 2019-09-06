@@ -9,3 +9,9 @@
 .meaning:nth-child(5) .btn {
     display: none;
 }
+.liStyle {
+    display: flex;
+    margin: 2em 2em;
+    border: 1px solid black;
+    padding: 1em;
+}

@@ -22,7 +22,7 @@ sectionMeaning.insertAdjacentHTML('beforeend', meaningDiv);
 
 function onMeaningButtonClick(event) {
     let target = event.target;
-    let sign = window.getComputedStyle(target,':before').getPropertyValue('content');
+    let sign = window.getComputedStyle(target, ':before').getPropertyValue('content');
     if (sign.includes('+')) {
         sectionMeaning.insertAdjacentHTML('beforeend', meaningDiv);
     } else {
@@ -35,11 +35,11 @@ let wordBook = JSON.parse(localStorage.getItem('wordBook')) || [];
 let save = document.getElementById('save');
 save.onclick = function(event) {
     event.preventDefault();
-   if( inspectInput()) return;
+    if (inspectInput()) return;
     let word = getWord(document);
     wordBook.push(word);
-    localStorage.setItem('wordBook',JSON.stringify(wordBook));
-
+    localStorage.setItem('wordBook', JSON.stringify(wordBook));
+    createWordLi(word);
 };
 
 function inspectInput() {
@@ -53,7 +53,7 @@ function inspectInput() {
 }
 
 function onInputCharge(event) {
-    if(event.data !== null){
+    if (event.data !== null) {
         event.target.style.borderColor = null;
     }
 }
@@ -61,10 +61,10 @@ function onInputCharge(event) {
 function getWord(element) {
     let meaning = element.querySelectorAll('.meaning');
     let word = {
-        name : element.getElementsByTagName('input')[0].value,
-        chinese : []
+        name: element.getElementsByTagName('input')[0].value,
+        chinese: []
     };
-    for (let item of meaning){
+    for (let item of meaning) {
         word.chinese.push({
             type: item.children[0].value,
             text: item.children[1].value,
@@ -72,3 +72,35 @@ function getWord(element) {
     }
     return word;
 }
+
+function createWordLi(word) {
+    let wordList = document.getElementById('word-list');
+    let li = document.createElement('li');
+    li.classList.add('liStyle');
+    li.insertAdjacentHTML('beforeend', `<div>
+            <div>${word.name}</div>
+            <div>
+                <button>编辑</button>
+                <button>删除</button>
+            </div>
+            <div class="word-Li"></div>
+            </div>`);
+
+    let wordLi = li.querySelector('.word-Li');
+    for (let item of word.chinese) {
+        wordLi.insertAdjacentHTML('beforeend', `<div>
+             <span>${item.type}</span>
+             <span>${item.text}</span>
+             </div>`)
+    }
+
+    wordList.prepend(li);
+}
+
+function refreshWordLi() {
+    for (let word of wordBook) {
+        createWordLi(word);
+    }
+}
+
+refreshWordLi();
