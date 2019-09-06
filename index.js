@@ -78,12 +78,12 @@ function getWord(element) {
 function createWordLi(word) {
     let wordList = document.getElementById('word-list');
     let li = document.createElement('li');
-    li.classList.add('liStyle');
+    li.classList.add('liStyle',word.name);
     li.insertAdjacentHTML('beforeend', `<div>
             <div>${word.name}</div>
             <div>
                 <button onclick="">编辑</button>
-                <button onclick="removeCard(event)">删除</button>
+                <button onclick="removeCard('${word.name}')">删除</button>
             </div>
             <div class="word-Li"></div>
             </div>`);
@@ -123,9 +123,20 @@ function detectionCard() {
     let card = document.getElementsByTagName('input')[0];
     for (let wordcard of wordBook) {
         if (card.value === wordcard.name) {
-            alert('该单词已存在');
+            alert('该单词已存在!');
             return true;
         }
     }
     return false;
+}
+
+function removeCard(wordname) {
+    let li = document.querySelector(`.${wordname}`);
+    li.remove();
+    for(let [index,word] of wordBook.entries()){
+        if(wordname === word.name){
+            wordBook.splice(index,1)
+        }
+    }
+    localStorage.setItem('wordBook',JSON.stringify(wordBook));
 }
