@@ -40,6 +40,7 @@ save.onclick = function(event) {
     wordBook.push(word);
     localStorage.setItem('wordBook', JSON.stringify(wordBook));
     createWordLi(word);
+    clearInputMessage();
 };
 
 function inspectInput() {
@@ -104,3 +105,14 @@ function refreshWordLi() {
 }
 
 refreshWordLi();
+
+function clearInputMessage() {
+    for(let div of document.querySelectorAll('.meaning:not(:first-child)')){
+        div.remove();
+    }
+    for(let input of document.querySelectorAll('input')){
+        input.value = ''
+    }
+    document.querySelector('.meaning>select').value = 'v.';
+
+}
