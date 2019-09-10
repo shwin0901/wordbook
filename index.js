@@ -168,6 +168,43 @@ function editCard(wordname) {
     }
     BigDiv.firstChild.appendChild(meaningDiv);
 
+    BigDiv.firstChild.insertAdjacentHTML("beforeend", `<button class="save btn btn-primary btn-sm" onclick="saveData('${wordname}')">保存</button>`);
+    BigDiv.firstChild.insertAdjacentHTML("beforeend", '<button class="cancel btn btn-danger btn-sm" onclick="cancel()">取消</button>');
     document.body.appendChild(BigDiv);
+    document.onkeydown = function(event) {
+        if (event.key === 'Escape') {
+            BigDiv.remove();
+        }
+    }
+
 }
 
+function saveData(wordname) {
+    let small = document.querySelector('.small-div');
+    for (let input of small.querySelectorAll('input')) {
+        if (input.value === '') {
+            input.style.borderColor = 'red';
+            return;
+        }
+    }
+
+    for(let [index,word] of wordBook.entries()){
+        if (word.name === wordname){
+            wordBook.splice(index, 1);
+            break;
+        }
+    }
+
+    let word = getWord(small);
+    removeCard(wordname);
+
+    wordBook.push(word);
+    localStorage.setItem('wordBook', JSON.stringify(wordBook));
+    createWordLi(word);
+    cancel();
+}
+
+function cancel() {
+    let BigDiv = document.querySelector('.big-div');
+    BigDiv.remove();
+}

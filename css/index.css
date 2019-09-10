@@ -38,3 +38,19 @@
     background-color: white;
     border-radius: 1%;
 }
+
+.save {
+    position: absolute;
+    bottom: 2.3em;
+    left: 7em;
+    width: 12%;
+    height: 6%;
+}
+
+.cancel {
+    position: absolute;
+    bottom: 2.3em;
+    right: 7em;
+    width: 12%;
+    height: 6%;
+}
