@@ -12,19 +12,20 @@ const meaningDiv = `
                 <option>adj.</option>
                 <option>adv.</option>
             </select>
-            <input class="meaning-text" type="text" placeholder="中文意思" required oninput="onInputCharge(event)">
+            <input class="meaning-text" type="text" placeholder="中文意思" required oninput="onInputCharge(event)" value="{meaning-text}">
             <div class="btn btn-primary" onclick="onMeaningButtonClick(event)"></div>
      </div>
 `;
 
 let sectionMeaning = document.querySelector('.section-meaning');
-sectionMeaning.insertAdjacentHTML('beforeend', meaningDiv);
+insertMeaning(sectionMeaning);
 
 function onMeaningButtonClick(event) {
     let target = event.target;
     let sign = window.getComputedStyle(target, ':before').getPropertyValue('content');
     if (sign.includes('+')) {
-        sectionMeaning.insertAdjacentHTML('beforeend', meaningDiv);
+        // sectionMeaning.insertAdjacentHTML('beforeend', meaningDiv);
+        insertMeaning(target.parentNode.parentNode);
     } else {
         target.parentNode.remove();
     }
@@ -78,11 +79,11 @@ function getWord(element) {
 function createWordLi(word) {
     let wordList = document.getElementById('word-list');
     let li = document.createElement('li');
-    li.classList.add('liStyle',word.name);
+    li.classList.add('liStyle', word.name);
     li.insertAdjacentHTML('beforeend', `<div>
             <div>${word.name}</div>
             <div>
-                <button onclick="">编辑</button>
+                <button onclick="editCard('${word.name}')">编辑</button>
                 <button onclick="removeCard('${word.name}')">删除</button>
             </div>
             <div class="word-Li"></div>
@@ -133,10 +134,40 @@ function detectionCard() {
 function removeCard(wordname) {
     let li = document.querySelector(`.${wordname}`);
     li.remove();
-    for(let [index,word] of wordBook.entries()){
-        if(wordname === word.name){
-            wordBook.splice(index,1)
+    for (let [index, word] of wordBook.entries()) {
+        if (wordname === word.name) {
+            wordBook.splice(index, 1)
         }
     }
-    localStorage.setItem('wordBook',JSON.stringify(wordBook));
+    localStorage.setItem('wordBook', JSON.stringify(wordBook));
 }
+
+function insertMeaning(parentDiv, meaningType = 'v.', meaningText = '') {
+    parentDiv.insertAdjacentHTML('beforeend', meaningDiv
+        .replace('{meaning-type}', meaningType)
+        .replace('{meaning-text}', meaningText))
+}
+
+
+function editCard(wordname) {
+    let BigDiv = document.createElement('div');
+    BigDiv.classList.add('big-div');
+    BigDiv.insertAdjacentHTML('beforeend', `<div class="small-div"><div>
+            <label>新单词：</label>
+            <input type="text" placeholder="请输入新单词" required oninput="onInputCharge(event)" value="${wordname}">
+        </div>
+        <label>含义：</label>
+        </div>`);
+    let meaningDiv = document.createElement('div');
+    for (let [index, word] of wordBook.entries()) {
+        if (word.name === wordname) {
+            for (let chin of word.chinese) {
+                insertMeaning(meaningDiv, chin.type, chin.text);
+            }
+        }
+    }
+    BigDiv.firstChild.appendChild(meaningDiv);
+
+    document.body.appendChild(BigDiv);
+}
+

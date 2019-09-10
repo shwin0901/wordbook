@@ -9,9 +9,32 @@
 .meaning:nth-child(5) .btn {
     display: none;
 }
+
 .liStyle {
     display: flex;
     margin: 2em 2em;
     border: 1px solid black;
     padding: 1em;
+}
+
+.big-div {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.small-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 520px;
+    height: 520px;
+    background-color: white;
+    border-radius: 1%;
 }
