@@ -80,9 +80,9 @@ function createWordLi(word) {
     let wordList = document.getElementById('word-list');
     let li = document.createElement('li');
     li.classList.add('liStyle', word.name);
-    li.insertAdjacentHTML('beforeend', `<div>
-            <div>${word.name}</div>
-            <div>
+    li.insertAdjacentHTML('beforeend', `<div class="liStyle-li">
+            <div class="liStyle-name">${word.name}</div>
+            <div class="liStyle-button">
                 <button onclick="editCard('${word.name}')">编辑</button>
                 <button onclick="removeCard('${word.name}')">删除</button>
             </div>

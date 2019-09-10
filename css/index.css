@@ -54,3 +54,84 @@
     width: 12%;
     height: 6%;
 }
+
+body {
+    background-color: #f1f1f1;
+}
+
+.solid-left {
+    width: 35%;
+    display: inline-block;
+    /*vertical-align: top;*/
+    padding: 3em 2em;
+}
+
+.solid-right {
+    position: fixed;
+    left: 35%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fcfcfc;
+}
+
+.card-book {
+    text-align: center;
+}
+
+.form-li {
+    padding: 3em;
+}
+
+.card-li {
+    text-align: center;
+    background-color: white;
+    padding-top: 1em;
+    margin-bottom: 0;
+    padding-bottom: 10px;
+    box-shadow: 2px 0 3px 2px rgba(0,0,0,0.08);
+    position: relative;
+    z-index: 3;
+}
+
+.word-ul {
+    padding: 3em 3em 3em 3em;
+    overflow: auto;
+    height: 90%;
+}
+
+.card-save {
+    width: 60%;
+    margin: 2em auto;
+    display: block;
+}
+
+.liStyle {
+    margin: 2em 3em;
+    border: none;
+    background-color: white;
+    box-shadow: 0.08em 0.08em 1em 0.08em rgba(0,0,0,0.08);
+    padding: 2em;
+}
+
+.liStyle:hover {
+    box-shadow: none;
+    background-color: #f8f8f8;
+    position: relative;
+}
+
+.liStyle-button {
+    position: absolute;
+    top: 20px;
+    right: 2em;
+}
+
+.liStyle-name {
+    font-size: 30px;
+    margin-bottom: 0.2em;
+}
+
+.word-Li {
+    font-size: 18px;
+    color: #555555;
+}
