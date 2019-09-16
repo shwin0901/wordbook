@@ -7,10 +7,10 @@ saveButton.addEventListener('click', function(event) {
 const meaningDiv = `
     <div class="meaning">
             <select>
-                <option>v.</option>
-                <option>n.</option>
-                <option>adj.</option>
-                <option>adv.</option>
+                <option {option-v}>v.</option>
+                <option {option-n}>n.</option>
+                <option {option-adj}>adj.</option>
+                <option {option-adv}>adv.</option>
             </select>
             <input class="meaning-text" type="text" placeholder="中文意思" required oninput="onInputCharge(event)" value="{meaning-text}">
             <div class="btn btn-primary" onclick="onMeaningButtonClick(event)"></div>
@@ -143,16 +143,18 @@ function removeCard(wordname) {
 }
 
 function insertMeaning(parentDiv, meaningType = 'v.', meaningText = '') {
-    parentDiv.insertAdjacentHTML('beforeend', meaningDiv
-        .replace('{meaning-type}', meaningType)
-        .replace('{meaning-text}', meaningText))
+    let div = meaningDiv
+        .replace('{meaning-text}', meaningText)
+        .replace(`{option-${meaningType.substring(0, meaningType.length - 1)}}`, 'selected')
+        .replace(/{option-.+}/g, '');
+    parentDiv.insertAdjacentHTML('beforeend', div);
 }
 
 
 function editCard(wordname) {
-    let BigDiv = document.createElement('div');
-    BigDiv.classList.add('big-div');
-    BigDiv.insertAdjacentHTML('beforeend', `<div class="small-div"><div>
+    let bigDiv = document.createElement('div');
+    bigDiv.classList.add('big-div');
+    bigDiv.insertAdjacentHTML('beforeend', `<div class="small-div"><div>
             <label>新单词：</label>
             <input type="text" placeholder="请输入新单词" required oninput="onInputCharge(event)" value="${wordname}">
         </div>
@@ -166,14 +168,14 @@ function editCard(wordname) {
             }
         }
     }
-    BigDiv.firstChild.appendChild(meaningDiv);
+    bigDiv.firstChild.appendChild(meaningDiv);
 
-    BigDiv.firstChild.insertAdjacentHTML("beforeend", `<button class="save btn btn-primary btn-sm" onclick="saveData('${wordname}')">保存</button>`);
-    BigDiv.firstChild.insertAdjacentHTML("beforeend", '<button class="cancel btn btn-danger btn-sm" onclick="cancel()">取消</button>');
-    document.body.appendChild(BigDiv);
+    bigDiv.firstChild.insertAdjacentHTML("beforeend", `<button class="save btn btn-primary btn-sm" onclick="saveData('${wordname}')">保存</button>`);
+    bigDiv.firstChild.insertAdjacentHTML("beforeend", '<button class="cancel btn btn-danger btn-sm" onclick="cancel()">取消</button>');
+    document.body.appendChild(bigDiv);
     document.onkeydown = function(event) {
         if (event.key === 'Escape') {
-            BigDiv.remove();
+            bigDiv.remove();
         }
     }
 
@@ -188,8 +190,8 @@ function saveData(wordname) {
         }
     }
 
-    for(let [index,word] of wordBook.entries()){
-        if (word.name === wordname){
+    for (let [index, word] of wordBook.entries()) {
+        if (word.name === wordname) {
             wordBook.splice(index, 1);
             break;
         }
