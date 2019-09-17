@@ -90,7 +90,7 @@ body {
     padding-top: 1em;
     margin-bottom: 0;
     padding-bottom: 10px;
-    box-shadow: 2px 0 3px 2px rgba(0,0,0,0.08);
+    box-shadow: 2px 0 3px 2px rgba(0, 0, 0, 0.08);
     position: relative;
     z-index: 3;
 }
@@ -108,23 +108,28 @@ body {
 }
 
 .liStyle {
+    position: relative;
     margin: 2em 3em;
     border: none;
     background-color: white;
-    box-shadow: 0.08em 0.08em 1em 0.08em rgba(0,0,0,0.08);
+    box-shadow: 0.08em 0.08em 1em 0.08em rgba(0, 0, 0, 0.08);
     padding: 2em;
 }
 
 .liStyle:hover {
     box-shadow: none;
     background-color: #f8f8f8;
-    position: relative;
 }
 
 .liStyle-button {
     position: absolute;
     top: 20px;
     right: 2em;
+    display: none;
+}
+
+.liStyle:hover .liStyle-button {
+    display: block;
 }
 
 .liStyle-name {
