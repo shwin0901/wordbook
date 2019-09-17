@@ -43,6 +43,7 @@ save.onclick = function(event) {
     localStorage.setItem('wordBook', JSON.stringify(wordBook));
     createWordLi(word);
     clearInputMessage();
+    updateWordCount();
 };
 
 function inspectInput() {
@@ -122,6 +123,7 @@ function refreshWordLi() {
     for (let word of wordBook) {
         createWordLi(word);
     }
+    updateWordCount();
 }
 
 refreshWordLi();
@@ -158,6 +160,7 @@ function removeCard(wordname) {
         }
     }
     localStorage.setItem('wordBook', JSON.stringify(wordBook));
+    updateWordCount();
 }
 
 function insertMeaning(parentDiv, meaningType = 'v.', meaningText = '') {
@@ -231,4 +234,9 @@ function cancel() {
     let smallDiv = bigDiv.querySelector('.small-div');
     smallDiv.classList.add('animated','fadeOutDown',"faster");
     setTimeout(() => bigDiv.remove(),500);
+}
+
+function updateWordCount() {
+    let num = document.getElementById('word-count');
+    num.textContent = wordBook.length;
 }
