@@ -10,6 +10,14 @@
     display: none;
 }
 
+.meaning {
+    margin-bottom: 5px;
+}
+
+.card-meaning {
+    margin: 6px 0 3px 0;
+}
+
 .liStyle {
     display: flex;
     margin: 2em 2em;

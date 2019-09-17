@@ -101,8 +101,8 @@ function createWordLi(word) {
     li.insertAdjacentHTML('beforeend', `<div class="liStyle-li">
             <div class="liStyle-name">${word.name}</div>
             <div class="liStyle-button">
-                <button onclick="editCard('${word.name}')">编辑</button>
-                <button onclick="removeCard('${word.name}')">删除</button>
+                <button class="btn btn-outline-primary" onclick="editCard('${word.name}')">编辑</button>
+                <button class="btn btn-outline-danger" onclick="removeCard('${word.name}')">删除</button>
             </div>
             <div class="word-Li"></div>
             </div>`);
@@ -176,7 +176,7 @@ function editCard(wordname) {
             <label>新单词：</label>
             <input type="text" placeholder="请输入新单词" required oninput="onInputCharge(event)" value="${wordname}">
         </div>
-        <label>含义：</label>
+        <label class="card-meaning">含义：</label>
         </div>`);
 
     let meaningDiv = document.createElement('div');
