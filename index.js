@@ -49,10 +49,28 @@ function inspectInput() {
     for (let input of document.querySelectorAll('input')) {
         if (input.value === '') {
             input.style.borderColor = 'red';
+            animateCSS(input, 'heartBeat');
             return true;
         }
     }
     return false;
+}
+
+function animateCSS(element, animationName) {
+    let node = null;
+    if (typeof element === 'object') {
+        node = element;
+    } else {
+        node = document.querySelector(element);
+    }
+    node.classList.add('animated', animationName);
+    function handleAnimationEnd() {
+        node.classList.remove('animated', animationName);
+        node.removeEventListener('animationend', handleAnimationEnd);
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd);
+
 }
 
 function onInputCharge(event) {
@@ -154,12 +172,13 @@ function insertMeaning(parentDiv, meaningType = 'v.', meaningText = '') {
 function editCard(wordname) {
     let bigDiv = document.createElement('div');
     bigDiv.classList.add('big-div');
-    bigDiv.insertAdjacentHTML('beforeend', `<div class="small-div"><div>
+    bigDiv.insertAdjacentHTML('beforeend', `<div class="small-div animated fadeInDown faster"><div>
             <label>新单词：</label>
             <input type="text" placeholder="请输入新单词" required oninput="onInputCharge(event)" value="${wordname}">
         </div>
         <label>含义：</label>
         </div>`);
+
     let meaningDiv = document.createElement('div');
     for (let [index, word] of wordBook.entries()) {
         if (word.name === wordname) {
@@ -175,7 +194,7 @@ function editCard(wordname) {
     document.body.appendChild(bigDiv);
     document.onkeydown = function(event) {
         if (event.key === 'Escape') {
-            bigDiv.remove();
+            cancel();
         }
     }
 
@@ -186,6 +205,7 @@ function saveData(wordname) {
     for (let input of small.querySelectorAll('input')) {
         if (input.value === '') {
             input.style.borderColor = 'red';
+            animateCSS(input, 'heartBeat');
             return;
         }
     }
@@ -207,6 +227,8 @@ function saveData(wordname) {
 }
 
 function cancel() {
-    let BigDiv = document.querySelector('.big-div');
-    BigDiv.remove();
+    let bigDiv = document.querySelector('.big-div');
+    let smallDiv = bigDiv.querySelector('.small-div');
+    smallDiv.classList.add('animated','fadeOutDown',"faster");
+    setTimeout(() => bigDiv.remove(),500);
 }
