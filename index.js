@@ -232,8 +232,8 @@ function saveData(wordname) {
 function cancel() {
     let bigDiv = document.querySelector('.big-div');
     let smallDiv = bigDiv.querySelector('.small-div');
-    smallDiv.classList.add('animated','fadeOutDown',"faster");
-    setTimeout(() => bigDiv.remove(),500);
+    smallDiv.classList.add('animated', 'fadeOutDown', "faster");
+    setTimeout(() => bigDiv.remove(), 500);
 }
 
 function updateWordCount() {
