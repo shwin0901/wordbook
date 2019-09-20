@@ -14,6 +14,16 @@
     margin-bottom: 5px;
 }
 
+.meaning > * {
+    vertical-align: middle;
+}
+
+.meaning > div {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+}
+
 .card-meaning {
     margin: 6px 0 3px 0;
 }
@@ -72,7 +82,7 @@ body {
     width: 35%;
     display: inline-block;
     /*vertical-align: top;*/
-    padding: 3em 2em;
+    padding: 3em;
 }
 
 .solid-right {
@@ -148,4 +158,70 @@ body {
 .word-Li {
     font-size: 18px;
     color: #555555;
+}
+
+@media screen and (max-width: 600px) {
+    .solid-left {
+        display: block;
+        width: 100%;
+    }
+
+    .form-li {
+        padding: 3em 0 0;
+    }
+
+    .solid-right {
+        position: relative;
+        left: 0;
+    }
+
+    .word-ul {
+        padding: 1em;
+    }
+
+    .liStyle {
+        margin: 1em;
+        padding: 26px;
+    }
+
+    .big-div {
+        z-index: 5;
+    }
+
+    .save {
+        width: auto;
+        left: 70px;
+    }
+
+    .cancel {
+        width: auto;
+        right: 70px;
+    }
+
+    .small-div {
+        width: 350px;
+        height: 500px;
+        background-color: #f1f1f1;
+    }
+
+    .liStyle-button {
+        display: block;
+        top: 26px;
+        right: 20px;
+    }
+
+    .btn-outline-primary {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .btn-outline-danger {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .card-li {
+        position: sticky;
+        top: 0;
+    }
 }
