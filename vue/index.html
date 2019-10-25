@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+    <div class="solid-left">
+        <h1 class="card-book">单词本</h1>
+        <form class="form-li">
+            <div>
+                <label>新单词：</label>
+                <word-input v-model="newWord"></word-input>
+            </div>
+            <label class="card-meaning">含义：</label>
+            <div class="section-meaning">
+            </div>
+            <button id="save" class="card-save btn-primary btn">保存</button>
+        </form>
+    </div>
+    <div class="solid-right">
+        <div class="card-li">
+            <h1>单词列表</h1>
+            <small>目前总共<b id="word-count"></b>个单词</small>
+        </div>
+        <ul id="word-list" class="word-ul"></ul>
+    </div>
+</div>
+
+</body>
+<script src="index.js"></script>
+</html>
