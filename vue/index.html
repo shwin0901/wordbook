@@ -26,7 +26,7 @@
             <div class="section-meaning">
                 <meaning-div v-for="(word,index) in newWord.chinese" v-model="word" v-index="index" @meaning-click="onMeaningClick"></meaning-div>
             </div>
-            <button id="save" class="card-save btn-primary btn">保存</button>
+            <button id="save" class="card-save btn-primary btn" @click.prevent="save">保存</button>
         </form>
     </div>
     <div class="solid-right">
@@ -34,7 +34,11 @@
             <h1>单词列表</h1>
             <small>目前总共<b id="word-count">{{wordBook.length}}</b>个单词</small>
         </div>
-        <ul id="word-list" class="word-ul"></ul>
+        <ul id="word-list" class="word-ul">
+            <li class="liStyle" v-for="(word,index) in wordBook">
+            <word-card :word="word" :index="index"></word-card>
+            </li>
+        </ul>
     </div>
 </div>
 

@@ -29,6 +29,23 @@ Vue.component("meaning-div", {
     }
 });
 
+Vue.component("word-card", {
+    template: `<div class="liStyle-li">
+        <div class="liStyle-name">{{ word.name }}</div>
+        <div class="liStyle-button">
+            <button class="btn btn-outline-primary" @click="">编辑</button>
+            <button class="btn btn-outline-danger" @click="">删除</button>
+        </div>
+        <div class="word-Li">
+            <div v-for="meaning in word.chinese">
+                <span>{{ meaning.type }}</span>
+                <span>{{ meaning.text }}</span>
+            </div>
+        </div>
+    </div>`,
+    props:['word','index'],
+});
+
 const vm = new Vue({
     el: "#app",
     data: {
@@ -46,10 +63,10 @@ const vm = new Vue({
         defaultWord: function() {
             return {
                 name: '',
-                chinese: {
+                chinese: [{
                     type: 'n.',
                     text: '',
-                }
+                }]
             }
         },
         onMeaningClick:function(event,index) {
@@ -59,8 +76,12 @@ const vm = new Vue({
                     text: '',
                 })
             } else {
-                this.newWord.chinese.splice(index,1);
+                this.newWord.chinese.splice(index, 1);
             }
+        },
+        save:function() {
+            this.wordBook.push(this.newWord);
+            this.newWord = this.defaultWord();
         }
     }
 });
