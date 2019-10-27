@@ -5,6 +5,7 @@
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -17,7 +18,7 @@
 <div id="app">
     <div class="solid-left">
         <h1 class="card-book">单词本</h1>
-        <form class="form-li">
+        <form class="form-li" @submit.prevent="save">
             <div>
                 <label>新单词：</label>
                 <word-input v-model="newWord.name" :placeholder="'请输入新单词'"></word-input>
@@ -26,7 +27,7 @@
             <div class="section-meaning">
                 <meaning-div v-for="(word,index) in newWord.chinese" v-model="word" v-index="index" @meaning-click="onMeaningClick"></meaning-div>
             </div>
-            <button id="save" class="card-save btn-primary btn" @click.prevent="save">保存</button>
+            <button id="save" type="submit" class="card-save btn-primary btn">保存</button>
         </form>
     </div>
     <div class="solid-right">

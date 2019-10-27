@@ -1,11 +1,41 @@
+Vue.directive('animate', {
+    componentUpdated: function(el, binding) {
+        let isInvalid = binding.value;
+        if (isInvalid) {
+            let animationName = binding.arg || 'shake';
+            el.classList.add('animated', animationName);
+            function handleAnimationEnd() {
+                el.classList.remove('animated', animationName);
+                el.removeEventListener('animationend', handleAnimationEnd);
+            }
+            el.addEventListener('animationend', handleAnimationEnd);
+        }
+    }
+});
+
 Vue.component("word-input", {
     template: `<input type="text" :placeholder="placeholder" v-model="value" 
-                     @input="onInputChange">`,
+                     @input="onInputChange" required :style="style"
+                     @invalid="onInvalid" v-animate:heartBeat="invalid">`,
     props: ["placeholder", 'value'],
+    data: function() {
+        return {
+            invalid: false,
+        }
+    },
+    computed:{
+        style: function() {
+            return this.invalid ? {borderColor: 'red'} : null
+        },
+    },
     methods: {
         onInputChange: function() {
             this.$emit('input', this.value)
+        },
+        onInvalid:function() {
+            return this.invalid = true;
         }
+
     }
 });
 
@@ -17,14 +47,23 @@ Vue.component("meaning-div", {
                 <option value="adj.">adj.</option>
                 <option value="adv.">adv.</option>
             </select>
-            <input class="meaning-text" type="text" placeholder="中文意思" v-model="value.text">
+            <word-input v-model="value.text" :class="'meaning-text'" :placeholder="'中文意思'"></word-input>
             <div class="btn btn-primary" @click="onMeaningButtonClick($event)"></div>
      </div>`,
-    props:['value','index'],
-    methods:{
-        onMeaningButtonClick:function(event) {
-            let sign = window.getComputedStyle(event.target,':before').getPropertyValue('content');
-            this.$emit('meaning-click',sign,this.index);
+    props: ['value', 'index'],
+    computed:{
+        style: function() {
+            return this.invalid ? {borderColor: 'red'} : null
+        },
+    },
+    methods: {
+        onMeaningButtonClick: function(event) {
+            let sign = window.getComputedStyle(event.target, ':before').getPropertyValue('content');
+            this.$emit('meaning-click', sign, this.index);
+        },
+
+        onInvalid:function() {
+            return this.invalid = true
         }
     }
 });
@@ -43,7 +82,7 @@ Vue.component("word-card", {
             </div>
         </div>
     </div>`,
-    props:['word','index'],
+    props: ['word', 'index'],
 });
 
 const vm = new Vue({
@@ -51,25 +90,25 @@ const vm = new Vue({
     data: {
         newWord: {
             name: '',
-            chinese:[
+            chinese: [
                 {
                     type: 'v.',
                     text: '',
                 }]
         },
-        wordBook:[],
+        wordBook: [],
     },
     methods: {
         defaultWord: function() {
             return {
                 name: '',
                 chinese: [{
-                    type: 'n.',
+                    type: 'v.',
                     text: '',
                 }]
             }
         },
-        onMeaningClick:function(event,index) {
+        onMeaningClick: function(event, index) {
             if (event.includes("+")) {
                 this.newWord.chinese.push({
                     type: 'v.',
@@ -79,7 +118,7 @@ const vm = new Vue({
                 this.newWord.chinese.splice(index, 1);
             }
         },
-        save:function() {
+        save: function() {
             this.wordBook.push(this.newWord);
             this.newWord = this.defaultWord();
         }
