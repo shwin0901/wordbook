@@ -9,6 +9,9 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
+    <script>
+        Vue.config.devtools = true;
+    </script>
 </head>
 <body>
 <div id="app">
@@ -17,10 +20,11 @@
         <form class="form-li">
             <div>
                 <label>新单词：</label>
-                <word-input v-model="newWord"></word-input>
+                <word-input v-model="newWord.name" :placeholder="'请输入新单词'"></word-input>
             </div>
             <label class="card-meaning">含义：</label>
             <div class="section-meaning">
+                <meaning-div v-for="(word,index) in newWord.chinese" v-model="word" v-index="index" @meaning-click="onMeaningClick"></meaning-div>
             </div>
             <button id="save" class="card-save btn-primary btn">保存</button>
         </form>
@@ -28,7 +32,7 @@
     <div class="solid-right">
         <div class="card-li">
             <h1>单词列表</h1>
-            <small>目前总共<b id="word-count"></b>个单词</small>
+            <small>目前总共<b id="word-count">{{wordBook.length}}</b>个单词</small>
         </div>
         <ul id="word-list" class="word-ul"></ul>
     </div>
