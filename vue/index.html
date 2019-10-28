@@ -56,7 +56,7 @@
             <meaning-div v-for="(meaning,index) in editingWord.chinese" v-model="meaning" :index="index" @meaning-click="meaningClick"></meaning-div>
             </div>
             <button type="submit" class="save btn btn-primary btn-sm">保存</button>
-            <button class="cancel btn btn-danger btn-sm" @click="">取消</button>
+            <button class="cancel btn btn-danger btn-sm" @click="onCancenCard">取消</button>
         </form>
     </div>
 </div>
