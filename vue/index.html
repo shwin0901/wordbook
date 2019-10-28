@@ -25,7 +25,8 @@
             </div>
             <label class="card-meaning">含义：</label>
             <div class="section-meaning">
-                <meaning-div v-for="(word,index) in newWord.chinese" v-model="word" v-index="index" @meaning-click="onMeaningClick"></meaning-div>
+                <meaning-div v-for="(word,index) in newWord.chinese" v-model="word" v-index="index"
+                             @meaning-click="onMeaningClick"></meaning-div>
             </div>
             <button id="save" type="submit" class="card-save btn-primary btn">保存</button>
         </form>
@@ -37,9 +38,26 @@
         </div>
         <ul id="word-list" class="word-ul">
             <li class="liStyle" v-for="(word,index) in wordBook">
-            <word-card :word="word" :index="index"></word-card>
+                <word-card :word="word" :index="index" @remove="onRemoveCard" @edit="onEditCard"></word-card>
             </li>
         </ul>
+    </div>
+    <div class="big-div" v-if="editingWord">
+        <form class="small-div animated fadeInDown faster"
+              @submit.prevent="onSaveCard">
+            <div>
+                <label>新单词：</label>
+                <word-input type="text" placeholder="请输入新单词" required
+                            v-model="editingWord.name">
+                </word-input>
+            </div>
+            <label class="card-meaning">含义：</label>
+            <div class="section-meaning">
+            <meaning-div v-for="(meaning,index) in editingWord.chinese" v-model="meaning" :index="index" @meaning-click="meaningClick"></meaning-div>
+            </div>
+            <button type="submit" class="save btn btn-primary btn-sm">保存</button>
+            <button class="cancel btn btn-danger btn-sm" @click="">取消</button>
+        </form>
     </div>
 </div>
 

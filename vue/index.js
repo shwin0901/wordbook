@@ -48,7 +48,7 @@ Vue.component("meaning-div", {
                 <option value="adv.">adv.</option>
             </select>
             <word-input v-model="value.text" :class="'meaning-text'" :placeholder="'中文意思'"></word-input>
-            <div class="btn btn-primary" @click="onMeaningButtonClick($event)"></div>
+            <div class="btn btn-primary" @click="onMeaningButtonClick"></div>
      </div>`,
     props: ['value', 'index'],
     computed:{
@@ -72,8 +72,8 @@ Vue.component("word-card", {
     template: `<div class="liStyle-li">
         <div class="liStyle-name">{{ word.name }}</div>
         <div class="liStyle-button">
-            <button class="btn btn-outline-primary" @click="">编辑</button>
-            <button class="btn btn-outline-danger" @click="">删除</button>
+            <button class="btn btn-outline-primary" @click="editCard">编辑</button>
+            <button class="btn btn-outline-danger" @click="removeCard">删除</button>
         </div>
         <div class="word-Li">
             <div v-for="meaning in word.chinese">
@@ -83,6 +83,36 @@ Vue.component("word-card", {
         </div>
     </div>`,
     props: ['word', 'index'],
+    methods:{
+        removeCard:function() {
+            this.$emit('remove',this.index)
+        },
+        editCard:function() {
+            this.$emit('edit',JSON.stringify(this.word))
+        }
+    }
+});
+
+Vue.component('meaning-list',{
+    template:`<meaning-div
+              v-for="(meaning,index) in word.chinses"
+              :index="index"
+              v-model="meaning"
+              @meaning-click="onMeaningClick"
+              ></meaning-div>`,
+    porps:['word'],
+    methods:{
+        onMeaningClick: function(event, index) {
+            if (event.includes("+")) {
+                this.word.chinese.push({
+                    type: 'v.',
+                    text: '',
+                })
+            } else {
+                this.word.chinese.splice(index, 1);
+            }
+        },
+    }
 });
 
 const vm = new Vue({
@@ -97,6 +127,8 @@ const vm = new Vue({
                 }]
         },
         wordBook: [],
+        editingIndex:null,
+        editingWord:null,
     },
     methods: {
         defaultWord: function() {
@@ -121,6 +153,22 @@ const vm = new Vue({
         save: function() {
             this.wordBook.push(this.newWord);
             this.newWord = this.defaultWord();
+        },
+        onRemoveCard:function(index) {
+            this.wordBook.splice(index,1);
+        },
+        onEditCard:function(word) {
+            this.editingWord=JSON.parse(word);
+        },
+        meaningClick:function(event,index) {
+            if (event.includes("+")){
+                this.editingWord.chinese.push({
+                    type:'v.',
+                    text:''
+                })
+            } else {
+                this.editingWord.chinese.splice(index,1)
+            }
         }
     }
 });
