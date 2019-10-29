@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/index.css">
     <script>
         Vue.config.devtools = true;
     </script>
@@ -24,10 +24,9 @@
                 <word-input v-model="newWord.name" :placeholder="'请输入新单词'"></word-input>
             </div>
             <label class="card-meaning">含义：</label>
-            <div class="section-meaning">
-                <meaning-div v-for="(word,index) in newWord.chinese" v-model="word" v-index="index"
-                             @meaning-click="onMeaningClick"></meaning-div>
-            </div>
+            <!--                <meaning-div v-for="(word,index) in newWord.chinese" v-model="word" v-index="index"-->
+            <!--                             @meaning-click="onMeaningClick"></meaning-div>-->
+            <meaning-list :word="newWord"></meaning-list>
             <button id="save" type="submit" class="card-save btn-primary btn">保存</button>
         </form>
     </div>
@@ -53,9 +52,9 @@
                 </word-input>
             </div>
             <label class="card-meaning">含义：</label>
-            <div class="section-meaning">
-            <meaning-div v-for="(meaning,index) in editingWord.chinese" v-model="meaning" :index="index" @meaning-click="meaningClick"></meaning-div>
-            </div>
+<!--                <meaning-div v-for="(meaning,index) in editingWord.chinese" v-model="meaning" :index="index"-->
+<!--                             @meaning-click="meaningClick"></meaning-div>-->
+                <meaning-list :word="editingWord"></meaning-list>
             <button type="submit" class="save btn btn-primary btn-sm">保存</button>
             <button class="cancel btn btn-danger btn-sm" @click="onCancelCard">取消</button>
         </form>

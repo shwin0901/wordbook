@@ -51,23 +51,14 @@ Vue.component("meaning-div", {
                 <option value="adv.">adv.</option>
             </select>
             <word-input v-model="value.text" :class="'meaning-text'" :placeholder="'中文意思'"></word-input>
-            <div class="btn btn-primary" @click="onMeaningButtonClick"></div>
+            <div class="btn btn-primary" @click="onMeaningButtonClick($event)"></div>
      </div>`,
     props: ['value', 'index'],
-    computed:{
-        style: function() {
-            return this.invalid ? {borderColor: 'red'} : null
-        },
-    },
     methods: {
         onMeaningButtonClick: function(event) {
             let sign = window.getComputedStyle(event.target, ':before').getPropertyValue('content');
             this.$emit('meaning-click', sign, this.index);
         },
-
-        onInvalid:function() {
-            return this.invalid = true
-        }
     }
 });
 
@@ -97,21 +88,26 @@ Vue.component("word-card", {
 });
 
 Vue.component('meaning-list',{
-    template:`<meaning-div
-              v-for="(meaning,index) in word.chinses"
+    template:`<div class="section-meaning">
+              <meaning-div
+              v-for="(meaning,index) in word.chinese"
               :index="index"
               v-model="meaning"
-              @meaning-click="onMeaningClick"
-              ></meaning-div>`,
-    porps:['word'],
+              @meaning-click="onMeaningClick">
+             </meaning-div>
+</div>`,
+    props: ['word'],
     methods:{
-        onMeaningClick: function(event, index) {
-            if (event.includes("+")) {
+         onMeaningClick : function(sign, index) {
+             console.log('meaning-click',sign.includes("+"),sign,index);
+            if (sign.includes("+")) {
+                console.log('+');
                 this.word.chinese.push({
                     type: 'v.',
                     text: '',
-                })
+                });
             } else {
+                console.log('-');
                 this.word.chinese.splice(index, 1);
             }
         },
@@ -127,7 +123,8 @@ const vm = new Vue({
                 {
                     type: 'v.',
                     text: '',
-                }]
+                }
+            ]
         },
         wordBook: [],
         editingIndex:null,
@@ -150,16 +147,6 @@ const vm = new Vue({
             }, () => {
                alert("error");
             })
-        },
-        onMeaningClick: function(event, index) {
-            if (event.includes("+")) {
-                this.newWord.chinese.push({
-                    type: 'v.',
-                    text: '',
-                })
-            } else {
-                this.newWord.chinese.splice(index, 1);
-            }
         },
         save: function() {
             jsonbox.post(this.newWord,(response) =>{
