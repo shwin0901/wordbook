@@ -1,7 +1,9 @@
+import {jsonbox} from "./jsonbox.js";
+
 Vue.directive('animate', {
     componentUpdated: function(el, binding) {
-        let isInvalid = binding.value;
-        if (isInvalid) {
+        let showAnimate = binding.value;
+        if (showAnimate) {
             let animationName = binding.arg || 'shake';
             el.classList.add('animated', animationName);
             function handleAnimationEnd() {
@@ -30,7 +32,8 @@ Vue.component("word-input", {
     },
     methods: {
         onInputChange: function() {
-            this.$emit('input', this.value)
+            this.$emit('input', this.value);
+            this.invalid = false;
         },
         onInvalid:function() {
             return this.invalid = true;
@@ -140,6 +143,14 @@ const vm = new Vue({
                 }]
             }
         },
+        refresh:function() {
+            this.newWord = this.defaultWord();
+            jsonbox.getAll(response => {
+                this.wordBook = response;
+            }, () => {
+               alert("error");
+            })
+        },
         onMeaningClick: function(event, index) {
             if (event.includes("+")) {
                 this.newWord.chinese.push({
@@ -151,8 +162,12 @@ const vm = new Vue({
             }
         },
         save: function() {
-            this.wordBook.push(this.newWord);
-            this.newWord = this.defaultWord();
+            jsonbox.post(this.newWord,(response) =>{
+                this.wordBook.push(response);
+                this.newWord = this.defaultWord();
+            },() => {
+                alert("save error");
+            });
         },
         onRemoveCard:function(index) {
             this.wordBook.splice(index,1);
@@ -179,5 +194,8 @@ const vm = new Vue({
             this.wordBook.splice(this.editingIndex,1,this.editingWord);
             this.editingWord=null;
         }
+    },
+    created:function() {
+        this.refresh();
     }
 });
