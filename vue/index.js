@@ -91,7 +91,7 @@ Vue.component("word-card", {
             this.$emit('remove',this.index,this.word);
         },
         editCard:function() {
-            this.$emit('edit',JSON.stringify(this.word),this.index)
+            this.$emit('edit',JSON.parse(JSON.stringify(this.word)),this.index)
         }
     }
 });
@@ -177,7 +177,7 @@ const vm = new Vue({
             });
         },
         onEditCard:function(word,index) {
-            this.editingWord=JSON.parse(word);
+            this.editingWord=word;
             this.editingIndex=index;
         },
         meaningClick:function(event,index) {
@@ -190,7 +190,7 @@ const vm = new Vue({
                 this.editingWord.chinese.splice(index,1)
             }
         },
-        onCancenCard:function() {
+        onCancelCard:function() {
             this.editingWord=null;
 
         },

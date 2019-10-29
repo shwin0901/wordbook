@@ -36,11 +36,12 @@
             <h1>单词列表</h1>
             <small>目前总共<b id="word-count">{{wordBook.length}}</b>个单词</small>
         </div>
-        <ul id="word-list" class="word-ul">
+        <ul v-if="wordBook && wordBook.length > 0" id="word-list" class="word-ul">
             <li class="liStyle" v-for="(word,index) in wordBook">
                 <word-card :word="word" :index="index" @remove="onRemoveCard" @edit="onEditCard"></word-card>
             </li>
         </ul>
+        <img src="../images/empty-list.png" alt="空白图片" v-else>
     </div>
     <div class="big-div" v-if="editingWord">
         <form class="small-div animated fadeInDown faster"
@@ -56,7 +57,7 @@
             <meaning-div v-for="(meaning,index) in editingWord.chinese" v-model="meaning" :index="index" @meaning-click="meaningClick"></meaning-div>
             </div>
             <button type="submit" class="save btn btn-primary btn-sm">保存</button>
-            <button class="cancel btn btn-danger btn-sm" @click="onCancenCard">取消</button>
+            <button class="cancel btn btn-danger btn-sm" @click="onCancelCard">取消</button>
         </form>
     </div>
 </div>
