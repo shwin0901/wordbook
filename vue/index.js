@@ -88,7 +88,7 @@ Vue.component("word-card", {
     props: ['word', 'index'],
     methods:{
         removeCard:function() {
-            this.$emit('remove',this.index)
+            this.$emit('remove',this.index,this.word);
         },
         editCard:function() {
             this.$emit('edit',JSON.stringify(this.word),this.index)
@@ -169,8 +169,12 @@ const vm = new Vue({
                 alert("save error");
             });
         },
-        onRemoveCard:function(index) {
-            this.wordBook.splice(index,1);
+        onRemoveCard:function(index,word) {
+            jsonbox.delete(word,(response) => {
+                this.wordBook.splice(index,1);
+            },() => {
+                alert("delete error");
+            });
         },
         onEditCard:function(word,index) {
             this.editingWord=JSON.parse(word);
@@ -191,8 +195,12 @@ const vm = new Vue({
 
         },
         onSaveCard:function() {
-            this.wordBook.splice(this.editingIndex,1,this.editingWord);
-            this.editingWord=null;
+            jsonbox.put(this.editingWord,(response) => {
+                this.wordBook.splice(this.editingIndex,1,this.editingWord);
+                this.editingWord = null;
+            },() => {
+                alert("put error");
+            });
         }
     },
     created:function() {
