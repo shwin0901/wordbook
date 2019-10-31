@@ -10,6 +10,8 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
     <link rel="stylesheet" href="../css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@3"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@3/dist/vue-loading.css" rel="stylesheet">
     <script>
         Vue.config.devtools = true;
     </script>
@@ -43,7 +45,7 @@
         <img src="../images/empty-list.png" alt="空白图片" v-else>
     </div>
     <div class="big-div" v-if="editingWord">
-        <form class="small-div animated fadeInDown faster"
+        <form class="small-div" :class="dialogClass"
               @submit.prevent="onSaveCard">
             <div>
                 <label>新单词：</label>
@@ -59,6 +61,7 @@
             <button class="cancel btn btn-danger btn-sm" @click="onCancelCard">取消</button>
         </form>
     </div>
+    <loading :active.sync="isLoading" :can-cancel="true" is-full-page="true"></loading>
 </div>
 
 </body>

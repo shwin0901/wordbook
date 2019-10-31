@@ -1,7 +1,10 @@
 import {jsonbox} from "./jsonbox.js";
+Vue.use(VueLoading);
+Vue.component('loading', VueLoading);
 
 Vue.directive('animate', {
     componentUpdated: function(el, binding) {
+        console.log('v-animate', binding);
         let showAnimate = binding.value;
         if (showAnimate) {
             let animationName = binding.arg || 'shake';
@@ -129,6 +132,17 @@ const vm = new Vue({
         wordBook: [],
         editingIndex:null,
         editingWord:null,
+        isLoading: false,
+    },
+    computed: {
+        dialogClass: function() {
+            return {
+                animated: true,
+                faster:true,
+                fadeInDown: this.editingWord !== null,
+                fadeOutDown: this.editingWord === null,
+            }
+        }
     },
     methods: {
         defaultWord: function() {
@@ -141,26 +155,35 @@ const vm = new Vue({
             }
         },
         refresh:function() {
+            this.isLoading = true;
             this.newWord = this.defaultWord();
             jsonbox.getAll(response => {
                 this.wordBook = response;
+                this.isLoading = false;
             }, () => {
-               alert("error");
+                alert("error");
+                this.isLoading = false;
             })
         },
         save: function() {
+            this.isLoading = true;
             jsonbox.post(this.newWord,(response) =>{
                 this.wordBook.push(response);
                 this.newWord = this.defaultWord();
+                this.isLoading = false;
             },() => {
                 alert("save error");
             });
+
         },
         onRemoveCard:function(index,word) {
+            this.isLoading = true;
             jsonbox.delete(word,(response) => {
                 this.wordBook.splice(index,1);
+                this.isLoading = false;
             },() => {
                 alert("delete error");
+                this.isLoading = false;
             });
         },
         onEditCard:function(word,index) {
